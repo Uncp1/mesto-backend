@@ -1,31 +1,30 @@
-import { Model, model, Schema } from "mongoose";
-import bcrypt from "bcryptjs";
+import { model, Schema } from "mongoose";
 
-const userSchema = new Schema({
-  about: {
+interface IUser {
+  name: string;
+  about: string;
+  email: string;
+  password: string;
+}
+
+const userSchema = new Schema<IUser>({
+  name: {
     type: String,
-    min: 2,
-    max: 200,
-  },
-  avatar: {
-    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 30,
   },
   email: {
     type: String,
     required: true,
     unique: true,
   },
-  name: {
-    type: String,
-    min: 2,
-    max: 30,
-  },
   password: {
     type: String,
     required: true,
-    select: false,
   },
+  about: String,
 });
 
-const User = model("User", userSchema);
+const User = model<IUser>("user", userSchema);
 export default User;
