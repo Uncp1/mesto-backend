@@ -23,14 +23,9 @@ export const getUserById = (req: Request, res: Response) => {
 };
 
 export const createUser = (req: Request, res: Response) => {
-  bcrypt
-    .hash(req.body.password, 10)
-    .then((hash) =>
-      User.create({
-        email: req.body.email,
-        password: hash,
-      })
-    )
-    .then((user) => res.status(201).send({ _id: user._id, email: user.email }))
-    .catch((err) => res.status(400).send(err));
+  const { name, about, avatar } = req.body;
+
+  return User.create({ name, about, avatar })
+    .then((user) => res.send({ data: user }))
+    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 };
