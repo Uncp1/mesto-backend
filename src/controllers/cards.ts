@@ -10,16 +10,16 @@ export const getCards = (req: Request, res: Response) => {
     .catch((err) => res.status(500).send(err));
 };
 
-/*export const getCardById = (req: Request, res: Response) => {
+export const deleteCard = (req: Request, res: Response, next: NextFunction) => {
   const { CardId } = req.params;
 
-  if (!Types.ObjectId.isValid(CardId)) {
-    return Promise.reject(new Error("Пользователь не существует"));
-  }
-  return Card.findById(CardId)
-    .then((Cards) => res.send({ data: Cards }))
-    .catch((err) => res.status(500).send(err));
-}; */
+  return (
+    Card.findByIdAndDelete(CardId)
+      //doesnt work
+      .then(() => res.status(200).send({ message: "Пост удалён" }))
+      .catch(next)
+  );
+};
 
 export const createCard = (req: Request, res: Response, next: NextFunction) => {
   const { name, link } = req.body;
@@ -37,6 +37,28 @@ export const likeCard = (req: Request, res: Response, next: NextFunction) => {
   return Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: userId } },
+    { new: true }
+  )
+    .orFail(() => {
+      throw new Error("card id doesn't exist");
+    })
+    .populate("likes")
+    .populate("owner")
+    .then((card) => res.status(200).send({ data: card }))
+    .catch(next);
+};
+
+export const dislikeCard = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { cardId } = req.params;
+  const userId = req.body._id;
+
+  return Card.findByIdAndUpdate(
+    cardId,
+    { $pull: { likes: userId } },
     { new: true }
   )
     .orFail(() => {

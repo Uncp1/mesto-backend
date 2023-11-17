@@ -1,13 +1,19 @@
-import { getCards, createCard, likeCard } from "../controllers/cards";
+import {
+  getCards,
+  createCard,
+  likeCard,
+  deleteCard,
+  dislikeCard,
+} from "../controllers/cards";
 import { Router } from "express";
 
 const router = Router();
 
 router.get("/", getCards);
-//router.delete("/:cardId", getUserById);
 router.post("/", createCard);
+router.delete("/:cardId", deleteCard);
 
 router.put("/:cardId/likes", likeCard);
-//router.delete("/:cardId/likes", getUserById);
+router.delete("/:cardId/likes", dislikeCard);
 
 export default router;
