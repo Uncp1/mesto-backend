@@ -11,14 +11,11 @@ export const getCards = (req: Request, res: Response) => {
 };
 
 export const deleteCard = (req: Request, res: Response, next: NextFunction) => {
-  const { CardId } = req.params;
+  const { cardId } = req.params;
 
-  return (
-    Card.findByIdAndDelete(CardId)
-      //doesnt work
-      .then(() => res.status(200).send({ message: "Пост удалён" }))
-      .catch(next)
-  );
+  return Card.findByIdAndDelete(cardId)
+    .then(() => res.status(200).send({ message: "Пост удалён" }))
+    .catch(next);
 };
 
 export const createCard = (req: Request, res: Response, next: NextFunction) => {
