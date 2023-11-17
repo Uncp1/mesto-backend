@@ -4,7 +4,9 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/", getUsers);
-router.get("/users/:userId", getUserById);
+router.get("/:userId", getUserById);
 router.post("/", createUser);
 
+//router.patch("/me", getUserById);
+//router.patch("/me", getUserById);
 export default router;

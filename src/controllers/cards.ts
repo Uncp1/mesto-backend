@@ -1,11 +1,11 @@
 import Card from "../models/card";
 import bcrypt from "bcryptjs";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
 
 export const getCards = (req: Request, res: Response) => {
   return Card.find({})
-
+    .populate("owner")
     .then((Cards) => res.send({ data: Cards }))
     .catch((err) => res.status(500).send(err));
 };
@@ -21,11 +21,11 @@ export const getCards = (req: Request, res: Response) => {
     .catch((err) => res.status(500).send(err));
 }; */
 
-export const createCard = (req: Request, res: Response) => {
+export const createCard = (req: Request, res: Response, next: NextFunction) => {
   const { name, link } = req.body;
   const owner = req.body._id;
 
   return Card.create({ name, link, owner })
-    .then((Card) => res.send({ data: Card }))
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .then((card) => res.send({ data: card }))
+    .catch(next);
 };

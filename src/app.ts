@@ -16,8 +16,13 @@ mongoose.connection.on("error", (err) => {
   console.log("Failed to connect to MongoDB", err);
 });
 
-app.get("/", function (req, res) {
-  res.send("Hello World!");
+app.use((req, res, next) => {
+  req.body = {
+    ...req.body,
+    _id: "655551c645aedd49d0386bb8",
+  };
+
+  next();
 });
 
 app.use("/users", usersRouter);

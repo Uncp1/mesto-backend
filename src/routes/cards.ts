@@ -3,8 +3,11 @@ import { Router } from "express";
 
 const router = Router();
 
-router.get("/cards", getCards);
-//router.get("/cards/:userId", getUserById);
-router.post("/cards", createCard);
+router.get("/", getCards);
+//router.delete("/:cardId", getUserById);
+router.post("/", createCard);
+
+//router.put("/:cardId/likes", getUserById);
+//router.delete("/:cardId/likes", getUserById);
 
 export default router;
