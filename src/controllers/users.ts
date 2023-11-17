@@ -11,13 +11,16 @@ export const getUsers = (req: Request, res: Response, next: NextFunction) => {
 
 export const getUserById = (req: Request, res: Response) => {
   const { userId } = req.params;
+  console.log(userId);
 
   if (!Types.ObjectId.isValid(userId)) {
     return Promise.reject(new Error("Пользователь не существует"));
-  }
+  } // fix later
   return User.findById(userId)
-
-    .then((users) => res.send({ data: users }))
+    .orFail(() => {
+      throw new Error("user doesn't exist");
+    })
+    .then((users) => res.status(200).send({ data: users }))
     .catch((err) => res.status(500).send(err));
 };
 
