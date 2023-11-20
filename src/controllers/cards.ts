@@ -39,8 +39,7 @@ export const likeCard = (req: Request, res: Response, next: NextFunction) => {
     { new: true }
   )
     .orFail(new NotFoundError("Запрашиваемая карточка не найдена"))
-    .populate("likes")
-    .populate("owner")
+    .populate(["likes", "owner"])
     .then((card) => res.status(200).send({ data: card }))
     .catch(next);
 };
@@ -59,8 +58,7 @@ export const dislikeCard = (
     { new: true }
   )
     .orFail(new NotFoundError("Запрашиваемая карточка не найдена"))
-    .populate("likes")
-    .populate("owner")
+    .populate(["likes", "owner"])
     .then((card) => res.status(200).send({ data: card }))
     .catch(next);
 };
