@@ -3,7 +3,7 @@ import {
   getUserById,
   getUsers,
   updateAvatar,
-  updateUser,
+  updateProfile,
 } from "../controllers/users";
 import { Router } from "express";
 
@@ -14,5 +14,5 @@ router.get("/:userId", getUserById);
 router.post("/", createUser);
 
 router.patch("/me/avatar", updateAvatar);
-router.patch("/me", updateUser);
+router.patch("/me", updateProfile);
 export default router;

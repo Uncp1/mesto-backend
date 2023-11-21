@@ -1,7 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
-import usersRouter from "./routes/users";
-import cardsRouter from "./routes/cards";
+import { errors } from "celebrate";
+import { usersRouter, cardsRouter } from "./routes";
+
+import errorHandler from "./midlware/error-handler";
 
 const { PORT = 3000 } = process.env;
 
@@ -27,6 +29,9 @@ app.use((req, res, next) => {
 
 app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);
+
+app.use(errors());
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
