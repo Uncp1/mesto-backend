@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import { errors } from "celebrate";
 import { usersRouter, cardsRouter } from "./routes";
-
 import errorHandler from "./midlware/error-handler";
+import NotFoundError from "./errors/not-found-error";
 
 const { PORT = 3000 } = process.env;
 
@@ -32,6 +32,9 @@ app.use("/cards", cardsRouter);
 
 app.use(errors());
 app.use(errorHandler);
+app.all("/*", () => {
+  throw new NotFoundError("страница не найдена");
+});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

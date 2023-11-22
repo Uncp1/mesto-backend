@@ -4,11 +4,11 @@ import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
 import NotFoundError from "../errors/not-found-error";
 
-export const getCards = (req: Request, res: Response) => {
+export const getCards = (req: Request, res: Response, next: NextFunction) => {
   return Card.find({})
     .populate("owner")
     .then((Cards) => res.send({ data: Cards }))
-    .catch((err) => res.status(500).send(err));
+    .catch(next);
 };
 
 export const deleteCard = (req: Request, res: Response, next: NextFunction) => {

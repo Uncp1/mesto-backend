@@ -45,6 +45,7 @@ export const validateUserProfile = celebrate({
     password: Joi.string().required().messages({
       "string.empty": 'Поле "пароль" должно быть заполнено',
     }), */
+    _id: Joi.string(),
   }),
 });
 
@@ -60,6 +61,7 @@ export const validateUserData = celebrate({
       "string.max": 'Максимальная длина поля "about" - 200',
       "string.empty": 'Поле "about" должно быть заполнено',
     }),
+    _id: Joi.string(),
   }),
 });
 
@@ -72,6 +74,7 @@ export const validateAvatar = celebrate({
       .messages({
         "string.empty": 'Поле "avatar" должно быть заполнено',
       }),
+    _id: Joi.string(),
   }),
 });
 
@@ -89,5 +92,6 @@ export const validateNewCard = celebrate({
       "string.max": 'Максимальная длина поля "name" - 30',
       "string.empty": 'Поле "name" должно быть заполнено',
     }),
+    _id: Joi.string(),
   }),
 });

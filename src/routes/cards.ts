@@ -6,11 +6,13 @@ import {
   dislikeCard,
 } from "../controllers/cards";
 import { Router } from "express";
+import { validateNewCard } from "../midlware/validation";
 
 const router = Router();
 
 router.get("/", getCards);
-router.post("/", createCard);
+
+router.post("/", validateNewCard, createCard);
 router.delete("/:cardId", deleteCard);
 
 router.put("/:cardId/likes", likeCard);

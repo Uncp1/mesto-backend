@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { Types, Error } from "mongoose";
 import NotFoundError from "../errors/not-found-error";
 import BadRequestError from "../errors/bad-request-err";
-import AuthenticationError from "errors/auth-err";
+import AuthenticationError from "../errors/auth-err";
 
 export const getUsers = (req: Request, res: Response, next: NextFunction) => {
   return User.find({})
@@ -43,10 +43,15 @@ export const createUser = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-const updateUserInfo = (req: Request, res: Response, next: NextFunction) => {
-  return User.findByIdAndUpdate(req.body._id, req.body, { new: true })
+const updateUserInfo = (
+  req: Request,
+  res: Response,
+  updateData: Object,
+  next: NextFunction
+) => {
+  return User.findByIdAndUpdate(req.body._id, updateData, { new: true })
     .orFail(new NotFoundError("Запрашиваемый пользователь не найден"))
-    .then((user) => res.status(200).send(user))
+    .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err instanceof Error.ValidationError) {
         next(new BadRequestError(err.message));
@@ -61,7 +66,10 @@ export const updateAvatar = (
   res: Response,
   next: NextFunction
 ) => {
-  updateUserInfo(req, res, next);
+  const updateData = {
+    ...req.body,
+  };
+  updateUserInfo(req, res, updateData, next);
 };
 
 export const updateProfile = (
@@ -69,5 +77,8 @@ export const updateProfile = (
   res: Response,
   next: NextFunction
 ) => {
-  updateUserInfo(req, res, next);
+  const updateData = {
+    ...req.body,
+  };
+  updateUserInfo(req, res, updateData, next);
 };

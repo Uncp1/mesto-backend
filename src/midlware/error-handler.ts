@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import getErrorData from "../helpers/get-error-data";
+import { STATUS_CODES } from "http";
 
 const errorHandler = (
   err: Error,
@@ -8,7 +9,7 @@ const errorHandler = (
   next: NextFunction
 ) => {
   const errorMessage = getErrorData(err);
-  const { statusCode = 500 } = res;
+  const { statusCode = STATUS_CODES[500] } = res;
   res.status(statusCode).send({ message: errorMessage });
 
   next();
