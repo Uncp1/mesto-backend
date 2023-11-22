@@ -10,7 +10,7 @@ const errorHandler = (
 ) => {
   const errorMessage = getErrorData(err);
   const { statusCode = STATUS_CODES[500] } = res;
-  res.status(statusCode).send({ message: errorMessage });
+  res.status(Number(statusCode)).send({ message: errorMessage });
 
   next();
 };
