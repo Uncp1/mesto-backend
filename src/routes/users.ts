@@ -1,6 +1,5 @@
 import {
   createUser,
-  getCurrentUser,
   getUserById,
   getUsers,
   updateAvatar,
@@ -11,13 +10,14 @@ import {
   validateAvatar,
   validateUserData,
   validateUserProfile,
-} from "../middleware/validation";
+} from "../midlware/validation";
 
 const router = Router();
 
 router.get("/", getUsers);
-router.get("/me", getCurrentUser);
+
 router.get("/:userId", getUserById);
+router.post("/", validateUserProfile, createUser);
 
 router.patch("/me/avatar", validateAvatar, updateAvatar);
 router.patch("/me", validateUserData, updateProfile);
