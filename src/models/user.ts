@@ -3,8 +3,9 @@ import { model, Schema } from "mongoose";
 interface IUser {
   name: string;
   about: string;
-  email: string;
-  password: string;
+  // email: string;
+  //password: string;
+  avatar: string;
 }
 
 const userSchema = new Schema<IUser>({
@@ -14,7 +15,7 @@ const userSchema = new Schema<IUser>({
     minlength: 2,
     maxlength: 30,
   },
-  email: {
+  /*  email: {
     type: String,
     required: true,
     unique: true,
@@ -22,8 +23,17 @@ const userSchema = new Schema<IUser>({
   password: {
     type: String,
     required: true,
+  }, */
+  about: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 200,
   },
-  about: String,
+  avatar: {
+    type: String,
+    required: true,
+  },
 });
 
 const User = model<IUser>("user", userSchema);
