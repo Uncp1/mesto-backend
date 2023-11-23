@@ -1,10 +1,10 @@
-import { STATUS_CODES } from "http";
+import { StatusCodes } from "http-status-codes";
 class AuthenticationError extends Error {
-  statusCode = STATUS_CODES[401];
+  statusCode = StatusCodes.UNAUTHORIZED;
 
   constructor(message: any) {
     super(message);
-    (this.message = message), (this.statusCode = STATUS_CODES[401]);
+    (this.message = message), (this.statusCode = StatusCodes.UNAUTHORIZED);
   }
 }
 
