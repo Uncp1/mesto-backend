@@ -6,7 +6,7 @@ import {
   dislikeCard,
 } from "../controllers/cards";
 import { Router } from "express";
-import { validateNewCard } from "../middleware/validation";
+import { validateNewCard } from "../midlware/validation";
 
 const router = Router();
 
