@@ -1,10 +1,10 @@
-import { STATUS_CODES } from "http";
+import { StatusCodes } from "http-status-codes";
 class BadRequestError extends Error {
-  statusCode = STATUS_CODES[400];
+  statusCode = StatusCodes.BAD_REQUEST;
 
   constructor(message: string) {
     super(message);
-    (this.message = message), (this.statusCode = STATUS_CODES[400]);
+    (this.message = message), (this.statusCode = StatusCodes.BAD_REQUEST);
   }
 }
 

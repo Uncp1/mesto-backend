@@ -2,9 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import { errors } from "celebrate";
 import { usersRouter, cardsRouter, authenticationRouter } from "./routes";
-import errorHandler from "./middlware/error-handler";
+import errorHandler from "./middleware/error-handler";
 import NotFoundError from "./errors/not-found-error";
 import { JwtPayload } from "jsonwebtoken";
+import { requestLogger, errorLogger } from "./middleware/logger";
+import auth from "./middleware/auth";
 declare global {
   namespace Express {
     interface Request {
@@ -26,8 +28,9 @@ mongoose.connection.on("error", (err) => {
   console.log("Failed to connect to MongoDB", err);
 });
 
-app.use("/users", usersRouter);
-app.use("/cards", cardsRouter);
+app.use(requestLogger);
+app.use("/users", auth, usersRouter);
+app.use("/cards", auth, cardsRouter);
 app.use("/", authenticationRouter);
 app.all("/*", () => {
   throw new NotFoundError("страница не найдена");
@@ -35,6 +38,7 @@ app.all("/*", () => {
 
 app.use(errors());
 app.use(errorHandler);
+app.use(errorLogger);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

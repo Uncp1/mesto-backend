@@ -1,5 +1,5 @@
-import { JWT_SECRET } from "config";
-import AuthenticationError from "errors/auth-err";
+import { JWT_SECRET } from "../config";
+import AuthenticationError from "../errors/auth-err";
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
