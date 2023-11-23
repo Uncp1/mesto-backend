@@ -1,11 +1,40 @@
-import User from "../models/user";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import { Types, Error } from "mongoose";
+import User from "../models/user";
 import NotFoundError from "../errors/not-found-error";
 import BadRequestError from "../errors/bad-request-err";
 import AuthenticationError from "../errors/auth-err";
 
+//!!!!!
+let JWT_SECRET = "super-strong-secret";
+
+export const login = (req: Request, res: Response, next: NextFunction) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign(
+        {
+          _id: user._id.toString(),
+        },
+        JWT_SECRET,
+        {
+          expiresIn: "7d",
+        }
+      );
+      res
+        .status(201)
+        .cookie("jwt", token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: true,
+        })
+        .send({ user, token });
+    })
+    .catch(next);
+};
 export const getUsers = (req: Request, res: Response, next: NextFunction) => {
   return User.find({})
     .then((users) => res.status(200).send({ data: users }))
