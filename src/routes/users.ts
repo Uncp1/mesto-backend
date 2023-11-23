@@ -10,7 +10,7 @@ import {
   validateAvatar,
   validateUserData,
   validateUserProfile,
-} from "../midlware/validation";
+} from "../middlware/validation";
 
 const router = Router();
 

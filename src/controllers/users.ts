@@ -6,9 +6,7 @@ import User from "../models/user";
 import NotFoundError from "../errors/not-found-error";
 import BadRequestError from "../errors/bad-request-err";
 import AuthenticationError from "../errors/auth-err";
-
-//!!!!!
-let JWT_SECRET = "super-strong-secret";
+import { JWT_SECRET } from "config";
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;

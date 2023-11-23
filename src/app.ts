@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import { errors } from "celebrate";
-import { usersRouter, cardsRouter } from "./routes";
-import errorHandler from "./midlware/error-handler";
+import { usersRouter, cardsRouter, authenticationRouter } from "./routes";
+import errorHandler from "./middlware/error-handler";
 import NotFoundError from "./errors/not-found-error";
 
 const { PORT = 3000 } = process.env;
@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);
-
+app.use("/", authenticationRouter);
 app.use(errors());
 app.use(errorHandler);
 app.all("/*", () => {

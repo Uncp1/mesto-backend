@@ -42,7 +42,7 @@ export const validateUserProfile = celebrate({
       .messages({
         "string.empty": 'Поле "email" должно быть заполнено',
       }),
-    password: Joi.string().required().messages({
+    password: Joi.string().min(8).required().messages({
       "string.empty": 'Поле "пароль" должно быть заполнено',
     }),
     _id: Joi.string(),
