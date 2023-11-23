@@ -26,21 +26,25 @@ export const getUserById = (
 };
 
 export const createUser = (req: Request, res: Response, next: NextFunction) => {
-  const { name, about, avatar } = req.body;
+  const { name, about, avatar, email, password } = req.body;
 
-  return User.create({ name, about, avatar })
-    .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      if (err instanceof Error.ValidationError) {
-        next(new BadRequestError(err.message));
-      } else if (err.code === 11000) {
-        next(
-          new AuthenticationError("Пользователь с такой почтой уже существует")
-        );
-      } else {
-        next(err);
-      }
-    });
+  return bcrypt.hash(password, 10).then((hash) =>
+    User.create({ name, about, avatar, email, password: hash })
+      .then((user) => res.status(201).send({ data: user }))
+      .catch((err) => {
+        if (err instanceof Error.ValidationError) {
+          next(new BadRequestError(err.message));
+        } else if (err.code === 11000) {
+          next(
+            new AuthenticationError(
+              "Пользователь с такой почтой уже существует"
+            )
+          );
+        } else {
+          next(err);
+        }
+      })
+  );
 };
 
 const updateUserInfo = (

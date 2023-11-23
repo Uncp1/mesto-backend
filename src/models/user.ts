@@ -1,11 +1,20 @@
 import { model, Schema } from "mongoose";
 
 interface IUser {
-  name: string;
-  about: string;
-  // email: string;
-  //password: string;
-  avatar: string;
+  name: {
+    type: string;
+    default: "Жак-Ив Кусто";
+  };
+  about: {
+    type: string;
+    default: "Исследователь";
+  };
+  avatar: {
+    type: string;
+    default: "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png";
+  };
+  email: string;
+  password: string;
 }
 
 const userSchema = new Schema<IUser>({
@@ -15,7 +24,7 @@ const userSchema = new Schema<IUser>({
     minlength: 2,
     maxlength: 30,
   },
-  /*  email: {
+  email: {
     type: String,
     required: true,
     unique: true,
@@ -23,7 +32,7 @@ const userSchema = new Schema<IUser>({
   password: {
     type: String,
     required: true,
-  }, */
+  },
   about: {
     type: String,
     required: true,
