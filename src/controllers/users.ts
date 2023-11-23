@@ -6,7 +6,7 @@ import User from "../models/user";
 import NotFoundError from "../errors/not-found-error";
 import BadRequestError from "../errors/bad-request-err";
 import AuthenticationError from "../errors/auth-err";
-import { JWT_SECRET } from "config";
+import { JWT_SECRET } from "../config";
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
@@ -50,6 +50,14 @@ export const getUserById = (
     .orFail(new NotFoundError("Запрашиваемый пользователь не найден"))
     .then((users) => res.status(200).send({ data: users }))
     .catch(next);
+};
+
+export const getCurrentUser = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  getUserById(req.user._id, res, next);
 };
 
 export const createUser = (req: Request, res: Response, next: NextFunction) => {

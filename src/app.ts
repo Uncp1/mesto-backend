@@ -4,6 +4,14 @@ import { errors } from "celebrate";
 import { usersRouter, cardsRouter, authenticationRouter } from "./routes";
 import errorHandler from "./middlware/error-handler";
 import NotFoundError from "./errors/not-found-error";
+import { JwtPayload } from "jsonwebtoken";
+declare global {
+  namespace Express {
+    interface Request {
+      user: JwtPayload;
+    }
+  }
+}
 
 const { PORT = 3000 } = process.env;
 
@@ -18,23 +26,15 @@ mongoose.connection.on("error", (err) => {
   console.log("Failed to connect to MongoDB", err);
 });
 
-app.use((req, res, next) => {
-  req.body = {
-    ...req.body,
-    _id: "655551c645aedd49d0386bb8",
-  };
-
-  next();
-});
-
 app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);
 app.use("/", authenticationRouter);
-app.use(errors());
-app.use(errorHandler);
 app.all("/*", () => {
   throw new NotFoundError("страница не найдена");
 });
+
+app.use(errors());
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

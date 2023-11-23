@@ -3,11 +3,7 @@ import AuthenticationError from "errors/auth-err";
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export interface SessionRequest extends Request {
-  user?: string | JwtPayload;
-}
-
-export default (req: SessionRequest, res: Response, next: NextFunction) => {
+export default (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith("Bearer ")) {

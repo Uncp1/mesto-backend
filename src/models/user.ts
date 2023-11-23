@@ -20,11 +20,12 @@ const userSchema = new Schema<IUser, UserModel>({
     type: String,
     required: true,
     unique: true,
-    validate: [validator.isURL, "Невалидный url-адрес"],
+    validate: [validator.isEmail, "Неправильный формат почты"],
   },
   password: {
     type: String,
     required: true,
+    select: false,
   },
   name: {
     type: String,
@@ -42,7 +43,7 @@ const userSchema = new Schema<IUser, UserModel>({
     type: String,
     default:
       "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
-    validate: [validator.isEmail, "Неправильный формат почты"],
+    validate: [validator.isURL, "Невалидный url-адрес"],
   },
 });
 
