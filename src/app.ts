@@ -7,6 +7,7 @@ import NotFoundError from "./errors/not-found-error";
 import { JwtPayload } from "jsonwebtoken";
 import { requestLogger, errorLogger } from "./middleware/logger";
 import auth from "./middleware/auth";
+import { DB_ADDRESS } from "./config";
 declare global {
   namespace Express {
     interface Request {
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // use brew services start mongodb-community@4.4
-mongoose.connect("mongodb://localhost:27017/mestodb");
+mongoose.connect(DB_ADDRESS);
 mongoose.connection.on("error", (err) => {
   console.log("Failed to connect to MongoDB", err);
 });

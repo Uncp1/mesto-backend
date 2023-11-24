@@ -9,7 +9,7 @@ const errorHandler = (
   next: NextFunction
 ) => {
   const statusCode = getStatusCode({ err, res });
-  const errorMessage = getErrorData(err);
+  const errorMessage = getErrorData(err, statusCode);
   res.status(statusCode).send({ message: errorMessage });
 
   next();
