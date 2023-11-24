@@ -2,24 +2,40 @@
   "name": "mesto-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/app",
   "scripts": {
-    "start": "ts-node-dev ./src/app",
+    "lint": "npx eslint src/**/*.ts",
+    "start": "ts-node ./src/app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Fidler Viktor",
   "license": "ISC",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.8.9",
+    "@types/validator": "^13.11.7",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "eslint": "^8.53.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "celebrate": "^15.0.3",
     "express": "^4.18.2",
-    "mongoose": "^8.0.0"
+    "express-winston": "^4.2.0",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
+    "validator": "^13.11.0",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
   }
 }
