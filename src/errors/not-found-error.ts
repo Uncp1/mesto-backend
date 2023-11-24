@@ -1,10 +1,10 @@
-import { STATUS_CODES } from "http";
+import { StatusCodes } from "http-status-codes";
 class NotFoundError extends Error {
-  statusCode = STATUS_CODES[404];
+  statusCode = StatusCodes.NOT_FOUND;
 
   constructor(message: string) {
     super(message);
-    (this.message = message), (this.statusCode = STATUS_CODES[404]);
+    (this.message = message), (this.statusCode = StatusCodes.NOT_FOUND);
   }
 }
 

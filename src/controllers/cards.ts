@@ -1,7 +1,5 @@
 import Card from "../models/card";
-import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
-import { Types } from "mongoose";
 import NotFoundError from "../errors/not-found-error";
 
 export const getCards = (req: Request, res: Response, next: NextFunction) => {

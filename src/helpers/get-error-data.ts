@@ -8,10 +8,20 @@ const getErrorBody = (error: Error): string => {
   return "";
 };
 
-const getErrorData = (error: Error) => ({
-  name: splitError(error, 0),
-  message: splitError(error, 1),
-  body: getErrorBody(error),
-});
+const getErrorData = (error: Error, statusCode: number) => {
+  if (statusCode === 500) {
+    return {
+      name: "Server Error",
+      message: "На сервере произошла ошибка",
+      body: getErrorBody(error),
+    };
+  }
+
+  return {
+    name: splitError(error, 0),
+    message: splitError(error, 1),
+    body: getErrorBody(error),
+  };
+};
 
 export default getErrorData;

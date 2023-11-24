@@ -35,16 +35,16 @@ export const validateUserProfile = celebrate({
       .messages({
         "string.empty": 'Поле "avatar" должно быть заполнено',
       }),
-    /* email: Joi.string()
+    email: Joi.string()
       .required()
       .email()
       .message('В поле "email" необходимо вставить email')
       .messages({
         "string.empty": 'Поле "email" должно быть заполнено',
       }),
-    password: Joi.string().required().messages({
+    password: Joi.string().min(8).required().messages({
       "string.empty": 'Поле "пароль" должно быть заполнено',
-    }), */
+    }),
     _id: Joi.string(),
   }),
 });
