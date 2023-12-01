@@ -1,4 +1,5 @@
-import { StatusCodes } from "http-status-codes";
+import { StatusCodes } from 'http-status-codes';
+
 class BadRequestError extends Error {
   statusCode = StatusCodes.BAD_REQUEST;
 

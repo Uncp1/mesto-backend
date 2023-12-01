@@ -1,4 +1,5 @@
-import { StatusCodes } from "http-status-codes";
+import { StatusCodes } from 'http-status-codes';
+
 class AuthenticationError extends Error {
   statusCode = StatusCodes.UNAUTHORIZED;
 

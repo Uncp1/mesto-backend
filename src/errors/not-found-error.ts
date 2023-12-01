@@ -1,4 +1,5 @@
-import { StatusCodes } from "http-status-codes";
+import { StatusCodes } from 'http-status-codes';
+
 class NotFoundError extends Error {
   statusCode = StatusCodes.NOT_FOUND;
 
