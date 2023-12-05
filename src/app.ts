@@ -8,13 +8,15 @@ import { JwtPayload } from 'jsonwebtoken';
 import { requestLogger, errorLogger } from './middleware/logger';
 import auth from './middleware/auth';
 import { DB_ADDRESS } from './config';
+
+/*
 declare global {
   namespace Express {
     interface Request {
       user: JwtPayload;
     }
   }
-}
+} */
 
 const { PORT = 3000 } = process.env;
 

@@ -33,22 +33,27 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
     })
     .catch(next);
 };
+
 export const getUsers = (req: Request, res: Response, next: NextFunction) =>
   User.find({})
     .then((users) => res.status(200).send({ data: users }))
     .catch(next);
 
 export const getUserById = (
-  req: Request,
+  userId: string,
   res: Response,
   next: NextFunction,
 ) => {
-  const { userId } = req.params;
+  console.log(userId);
 
-  return User.findById(userId)
+  User.findById(userId)
     .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
     .then((users) => res.status(200).send({ data: users }))
     .catch(next);
+};
+
+export const getUser = (req: Request, res: Response, next: NextFunction) => {
+  getUserById(req.params.userId, res, next);
 };
 
 export const getCurrentUser = (

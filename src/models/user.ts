@@ -54,10 +54,14 @@ userSchema.static(
     return this.findOne({ email })
       .select('+password')
       .orFail(new AuthenticationError('Неправильные почта или пароль'))
-      .then((user) => bcrypt.compare(password, user.password).then((matched: boolean) => {
-        if (!matched) throw new AuthenticationError('Неправильные почта или пароль');
-        return user;
-      }));
+      .then((user) =>
+        bcrypt.compare(password, user.password).then((matched: boolean) => {
+          if (!matched) {
+            throw new AuthenticationError('Неправильные почта или пароль');
+          }
+          return user;
+        }),
+      );
   },
 );
 

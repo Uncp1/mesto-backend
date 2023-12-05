@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import {
   getCurrentUser,
-  getUserById,
+  getUser,
   getUsers,
   updateAvatar,
   updateProfile,
@@ -12,7 +12,7 @@ const router = Router();
 
 router.get('/', getUsers);
 router.get('/me', getCurrentUser);
-router.get('/:userId', getUserById);
+router.get('/:userId', getUser);
 
 router.patch('/me/avatar', validateAvatar, updateAvatar);
 router.patch('/me', validateUserData, updateProfile);
