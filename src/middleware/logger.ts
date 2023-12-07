@@ -24,4 +24,5 @@ export const requestLogger = expressWinston.logger({
 export const errorLogger = expressWinston.errorLogger({
   transports: [errorTransport],
   format: winston.format.json(),
+  level: 'error',
 });
