@@ -1,7 +1,8 @@
-import { model, Schema, Model } from "mongoose";
-import validator from "validator";
-import bcrypt from "bcryptjs";
-import AuthenticationError from "../errors/auth-err";
+import { model, Schema, Model } from 'mongoose';
+import validator from 'validator';
+import bcrypt from 'bcryptjs';
+import AuthenticationError from '../errors/auth-err';
+
 interface IUser {
   readonly _id: string;
   name: string;
@@ -20,7 +21,7 @@ const userSchema = new Schema<IUser, UserModel>({
     type: String,
     required: true,
     unique: true,
-    validate: [validator.isEmail, "Неправильный формат почты"],
+    validate: [validator.isEmail, 'Неправильный формат почты'],
   },
   password: {
     type: String,
@@ -31,37 +32,38 @@ const userSchema = new Schema<IUser, UserModel>({
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: "Жак-Ив Кусто",
+    default: 'Жак-Ив Кусто',
   },
   about: {
     type: String,
     minlength: 2,
     maxlength: 200,
-    default: "Исследователь",
+    default: 'Исследователь',
   },
   avatar: {
     type: String,
     default:
-      "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
-    validate: [validator.isURL, "Невалидный url-адрес"],
+      'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+    validate: [validator.isURL, 'Невалидный url-адрес'],
   },
 });
 
 userSchema.static(
-  "findUserByCredentials",
+  'findUserByCredentials',
   function findUserByCredentials(email: string, password: string) {
     return this.findOne({ email })
-      .select("+password")
-      .orFail(new AuthenticationError("Неправильные почта или пароль"))
+      .select('+password')
+      .orFail(new AuthenticationError('Неправильные почта или пароль'))
       .then((user) =>
         bcrypt.compare(password, user.password).then((matched: boolean) => {
-          if (!matched)
-            throw new AuthenticationError("Неправильные почта или пароль");
+          if (!matched) {
+            throw new AuthenticationError('Неправильные почта или пароль');
+          }
           return user;
-        })
+        }),
       );
-  }
+  },
 );
 
-const User = model<IUser, UserModel>("user", userSchema);
+const User = model<IUser, UserModel>('user', userSchema);
 export default User;
