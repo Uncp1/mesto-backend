@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
+import { Types } from 'mongoose';
 import Card from '../models/card';
 import NotFoundError from '../errors/not-found-error';
 import AuthenticationError from '../errors/auth-err';
+import BadRequestError from '../errors/bad-request-err';
 
 export const getCards = (req: Request, res: Response, next: NextFunction) =>
   Card.find({})
@@ -12,6 +14,10 @@ export const getCards = (req: Request, res: Response, next: NextFunction) =>
 export const deleteCard = (req: Request, res: Response, next: NextFunction) => {
   const { cardId } = req.params;
   const userId = req.user._id;
+
+  if (!Types.ObjectId.isValid(cardId)) {
+    throw new BadRequestError('Некорректный ObjectId');
+  }
 
   Card.findById(cardId)
     .then((card) => {
@@ -40,6 +46,10 @@ export const createCard = (req: Request, res: Response, next: NextFunction) => {
   const { name, link } = req.body;
   const owner = req.user._id;
 
+  if (!Types.ObjectId.isValid(owner)) {
+    throw new BadRequestError('Некорректный ObjectId');
+  }
+
   return Card.create({ name, link, owner })
     .then((card) => res.status(201).send({ data: card }))
     .catch(next);
@@ -48,6 +58,10 @@ export const createCard = (req: Request, res: Response, next: NextFunction) => {
 export const likeCard = (req: Request, res: Response, next: NextFunction) => {
   const { cardId } = req.params;
   const userId = req.user._id;
+
+  if (!Types.ObjectId.isValid(cardId)) {
+    throw new BadRequestError('Некорректный ObjectId');
+  }
 
   return Card.findByIdAndUpdate(
     cardId,
@@ -67,6 +81,10 @@ export const dislikeCard = (
 ) => {
   const { cardId } = req.params;
   const userId = req.user._id;
+
+  if (!Types.ObjectId.isValid(cardId)) {
+    throw new BadRequestError('Некорректный ObjectId');
+  }
 
   return Card.findByIdAndUpdate(
     cardId,

@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
-import { Error } from 'mongoose';
+import { Error, Types } from 'mongoose';
 import User from '../models/user';
 import NotFoundError from '../errors/not-found-error';
 import BadRequestError from '../errors/bad-request-err';
@@ -44,11 +44,13 @@ export const getUserById = (
   res: Response,
   next: NextFunction,
 ) => {
-  console.log(userId);
+  if (!Types.ObjectId.isValid(userId)) {
+    throw new BadRequestError('Некорректный ObjectId');
+  }
 
   User.findById(userId)
     .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
-    .then((users) => res.status(200).send({ data: users }))
+    .then((user) => res.status(200).send({ data: user }))
     .catch(next);
 };
 
@@ -97,8 +99,12 @@ const updateUserInfo = (
   res: Response,
   updateData: Object,
   next: NextFunction,
-) =>
-  User.findByIdAndUpdate(req.body._id, updateData, { new: true })
+) => {
+  if (!Types.ObjectId.isValid(req.user._id)) {
+    throw new BadRequestError('Некорректный ObjectId');
+  }
+
+  User.findByIdAndUpdate(req.user._id, updateData, { new: true })
     .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
@@ -108,6 +114,7 @@ const updateUserInfo = (
         next(err);
       }
     });
+};
 
 export const updateAvatar = (
   req: Request,
