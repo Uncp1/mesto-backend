@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Types } from 'mongoose';
+import { StatusCodes } from 'http-status-codes';
 import Card from '../models/card';
 import NotFoundError from '../errors/not-found-error';
 import AuthenticationError from '../errors/auth-err';
@@ -36,7 +37,7 @@ export const deleteCard = (req: Request, res: Response, next: NextFunction) => {
       }
 
       Card.findByIdAndDelete(cardId)
-        .then(() => res.status(200).send({ message: 'Пост удалён' }))
+        .then(() => res.status(StatusCodes.OK).send({ message: 'Пост удалён' }))
         .catch(next);
     })
     .catch(next);
@@ -51,7 +52,7 @@ export const createCard = (req: Request, res: Response, next: NextFunction) => {
   }
 
   return Card.create({ name, link, owner })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.status(StatusCodes.CREATED).send({ data: card }))
     .catch(next);
 };
 
@@ -70,7 +71,7 @@ export const likeCard = (req: Request, res: Response, next: NextFunction) => {
   )
     .orFail(new NotFoundError('Запрашиваемая карточка не найдена'))
     .populate(['likes', 'owner'])
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(StatusCodes.OK).send({ data: card }))
     .catch(next);
 };
 
@@ -93,6 +94,6 @@ export const dislikeCard = (
   )
     .orFail(new NotFoundError('Запрашиваемая карточка не найдена'))
     .populate(['likes', 'owner'])
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(StatusCodes.OK).send({ data: card }))
     .catch(next);
 };

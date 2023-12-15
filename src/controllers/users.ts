@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { Error, Types } from 'mongoose';
+import { StatusCodes } from 'http-status-codes';
 import User from '../models/user';
 import NotFoundError from '../errors/not-found-error';
 import BadRequestError from '../errors/bad-request-err';
@@ -23,7 +24,7 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
         },
       );
       res
-        .status(201)
+        .status(StatusCodes.CREATED)
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
@@ -36,7 +37,7 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
 
 export const getUsers = (req: Request, res: Response, next: NextFunction) =>
   User.find({})
-    .then((users) => res.status(200).send({ data: users }))
+    .then((users) => res.status(StatusCodes.OK).send({ data: users }))
     .catch(next);
 
 export const getUserById = (
@@ -50,7 +51,7 @@ export const getUserById = (
 
   User.findById(userId)
     .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(StatusCodes.OK).send({ data: user }))
     .catch(next);
 };
 
@@ -77,7 +78,7 @@ export const createUser = (req: Request, res: Response, next: NextFunction) => {
       email,
       password: hash,
     })
-      .then((user) => res.status(201).send({ data: user }))
+      .then((user) => res.status(StatusCodes.CREATED).send({ data: user }))
       .catch((err) => {
         if (err instanceof Error.ValidationError) {
           next(new BadRequestError(err.message));
@@ -106,7 +107,7 @@ const updateUserInfo = (
 
   User.findByIdAndUpdate(req.user._id, updateData, { new: true })
     .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(StatusCodes.OK).send({ data: user }))
     .catch((err) => {
       if (err instanceof Error.ValidationError) {
         next(new BadRequestError(err.message));

@@ -5,7 +5,8 @@
   "main": "./src/app",
   "scripts": {
     "lint": "npx eslint src/**/*.ts",
-    "start": "ts-node ./src/app",
+    "start": "NODE_ENV=\"production\" ts-node ./src/app",
+    "dev": "NODE_ENV=\"development\" ts-node-dev --respawn ./src/app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

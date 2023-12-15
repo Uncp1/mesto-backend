@@ -1,4 +1,4 @@
-import winston from 'winston';
+import winston, { format } from 'winston';
 import expressWinston from 'express-winston';
 import 'winston-daily-rotate-file';
 
@@ -23,6 +23,5 @@ export const requestLogger = expressWinston.logger({
 
 export const errorLogger = expressWinston.errorLogger({
   transports: [errorTransport],
-  format: winston.format.json(),
-  level: 'error',
+  format: format.combine(format.errors({ stack: true }), winston.format.json()),
 });
