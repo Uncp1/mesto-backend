@@ -1,14 +1,17 @@
-const splitError = (error: Error, part: number): string => error.toString().split(':')[part].trim();
+import { StatusCodes } from 'http-status-codes';
+
+const splitError = (error: Error, part: number): string =>
+  error.toString().split(':')[part].trim();
 
 const getErrorBody = (error: Error): string => {
-  if (error.stack) {
+  if (error.stack && process.env.NODE_ENV === 'development') {
     return error.stack;
   }
   return '';
 };
 
 const getErrorData = (error: Error, statusCode: number) => {
-  if (statusCode === 500) {
+  if (statusCode === StatusCodes.INTERNAL_SERVER_ERROR) {
     return {
       name: 'Server Error',
       message: 'На сервере произошла ошибка',

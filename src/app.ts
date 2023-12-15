@@ -22,6 +22,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 app.use(requestLogger);
+
 app.use('/users', auth, usersRouter);
 app.use('/cards', auth, cardsRouter);
 app.use('/', authenticationRouter);
@@ -29,9 +30,9 @@ app.all('/*', () => {
   throw new NotFoundError('страница не найдена');
 });
 
+app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
-app.use(errorLogger);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
